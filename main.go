@@ -34,6 +34,13 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// If all the sections of the config are missing or
+	// their values are all zero values, exit with code 1
+	if config == (AppSettings{}) {
+		fmt.Println("Error: The configuration file 'appsettings.json' has sections which are all set to their zero values.")
+		os.Exit(1)
+	}
+
 	// Else, print the values in the appsettings.json file
 	fmt.Println(config.ConnectionStrings)
 	fmt.Println(config.ConnectionStrings.SampleDb1)
