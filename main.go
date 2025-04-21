@@ -7,18 +7,21 @@ import (
 )
 
 func main() {
-	// read the current directory
-	files, err := os.ReadDir(".")
+	// Retrieve information about the 'appsettings.json' file in the current directory
+	_, err := os.Stat("appsettings.json")
 
-	// if there is any error, print
-	// it and exit the program
+	// If there is an error in retrieving the file's info...
 	if err != nil {
-		log.Fatal(err)
+		// Check if it's that the file does not exist
+		if os.IsNotExist(err) {
+			fmt.Println("Error: The required configuration file 'appsettings.json' was not found in the directory of the executed program.")
+			os.Exit(1)
+		} else {
+			// Else, print the error and exit with code 1
+			log.Fatal(err)
+		}
 	}
 
-	// for each file in the current
-	// directory, print the file name
-	for _, file := range files {
-		fmt.Println(file.Name())
-	}
+	// The file exists!
+	fmt.Println("The appsettings.json file exists")
 }
